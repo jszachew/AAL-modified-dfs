@@ -42,6 +42,7 @@ def read_graph_from_file(file_name):
             find_vertex = next(v for v in vertices if v.id == splitted_line[i])
             if find_vertex:
                 start_vertex.neighbours.append(find_vertex)
+                find_vertex.neighbours.append(start_vertex)
 
     return vertices
 
