@@ -1,3 +1,4 @@
+import sys
 
 class Vertex:
     def __init__(self, id, value):
@@ -11,8 +12,6 @@ def find_path(graph, start, end, saldo, path=[]):
     saldo = saldo - start.value
     if start == end and saldo == 0:
         return path
-    #if start not in graph:
-    #    return None
     if saldo < 0:
         return None
     for node in start.neighbours:
@@ -47,47 +46,45 @@ def read_graph_from_file(file_name):
     return vertices
 
 
+def getVertex(graph, vertex_id):
+    try:
+        vertex = next(s for s in graph if s.id == vertex_id)
+        return vertex
+    except:
+        print("Vertex " + vertex_id + " doesn't exist in graph")
+    return
+
+
 def main():
-    #print("hello")
 
-    graph_2 = read_graph_from_file('test_file')
+    if len(sys.argv) != 5:
+        print("Need 4 args: filename, z, P, K")
+        return
+    filename = str(sys.argv[1])
+    path_value = int(sys.argv[2])
+    start_vertex = str(sys.argv[3])
+    end_vertex = str(sys.argv[4])
 
-    #for i in range(len(graph_2)):
-    #    print(graph_2[i].id + str(graph_2[i].value))
-    #    for n in graph_2[i].neighbours:
-    #        print(n.id)
+    graph_2 = read_graph_from_file(filename)
+    start = getVertex(graph_2, start_vertex)
+    end = getVertex(graph_2, end_vertex)
 
-    vertices = list()
-    A = Vertex('A', 5)
-    B = Vertex('B', 3)
-    C = Vertex('C', 2)
-    D = Vertex('D', 6)
-    E = Vertex('E', 4)
-    F = Vertex('F', 2)
+    path_list = None
 
-    A.neighbours.append(B)
-    A.neighbours.append(C)
-    B.neighbours.append(C)
-    B.neighbours.append(D)
-    C.neighbours.append(D)
-    D.neighbours.append(C)
-    E.neighbours.append(F)
-    F.neighbours.append(C)
+    if start and end:
+        path_list = find_path(graph_2, start, end, path_value)
+    else:
+        return
 
+    if path_list:
+        for v in path_list:
+            print(v.id + "(" + str(v.value) + ")"),
+            if v is not path_list[-1]:
+                print('->'),
 
+    else:
+        print("Path does not exist")
 
-    graph_1= list()
-    graph_1.append(A)
-    graph_1.append(B)
-    graph_1.append(C)
-    graph_1.append(D)
-    graph_1.append(E)
-    graph_1.append(F)
-
-    path_list = find_path(graph_2, A, D, 16)
-    print(path_list)
-    for v in path_list:
-        print(v.id)
 
 if __name__ == "__main__":
     main()
