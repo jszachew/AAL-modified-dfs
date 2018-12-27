@@ -23,10 +23,34 @@ def find_path(graph, start, end, saldo, path=[]):
     return None
 
 
+def read_graph_from_file(file_name):
+
+    with open(file_name, "r") as f:
+        lines = [line.rstrip("\n") for line in f]
+
+    vertices = list()
+    for line in lines:
+        splitted_line = line.split(',')
+        vertex_id = splitted_line[0]
+        vertex_value = int(splitted_line[1])
+        vertex = Vertex(vertex_id, vertex_value)
+        vertices.append(vertex)
+
+    for line in lines:
+        splitted_line = line.split(',')
+        start_vertex = next(s for s in vertices if s.id == splitted_line[0])
+        for i in range(2, len(splitted_line)):
+            find_vertex = next(v for v in vertices if v.id == splitted_line[i])
+            if find_vertex:
+                start_vertex.neighbours.append(find_vertex)
+
+    return vertices
+
+
 def main():
     #print("hello")
 
-    #graph_2 = read_graph_from_file('test_file')
+    graph_2 = read_graph_from_file('test_file')
 
     #for i in range(len(graph_2)):
     #    print(graph_2[i].id + str(graph_2[i].value))
@@ -60,7 +84,7 @@ def main():
     graph_1.append(E)
     graph_1.append(F)
 
-    path_list = find_path(graph_1, A, D, 16)
+    path_list = find_path(graph_2, A, D, 16)
     print(path_list)
     for v in path_list:
         print(v.id)
