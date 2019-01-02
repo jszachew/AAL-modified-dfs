@@ -24,8 +24,12 @@ def find_path(graph, start, end, saldo, path=[]):
 
 def read_graph_from_file(file_name):
 
-    with open(file_name, "r") as f:
-        lines = [line.rstrip("\n") for line in f]
+    try:
+        with open(file_name, "r") as f:
+            lines = [line.rstrip("\n") for line in f]
+    except:
+        print("File open error. Check filename!")
+        return None
 
     vertices = list()
     for line in lines:
@@ -42,7 +46,8 @@ def read_graph_from_file(file_name):
             find_vertex = next(v for v in vertices if v.id == splitted_line[i])
             if find_vertex:
                 start_vertex.neighbours.append(find_vertex)
-                find_vertex.neighbours.append(start_vertex)
+                if start_vertex not in find_vertex.neighbours:
+                    find_vertex.neighbours.append(start_vertex)
 
     return vertices
 

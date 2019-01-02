@@ -1,0 +1,17 @@
+A,3,B,M
+B,6
+C,4,B
+D,7,L,M
+E,1
+F,10,E
+G,15,C,B
+H,8,B
+I,5,E,O,J
+J,8,F,N
+K,9,H,P
+L,1,F
+M,7,G
+N,4,M,O
+O,7
+R,5,F,M
+P,0,O,A
